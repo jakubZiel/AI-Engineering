@@ -3,6 +3,7 @@ import json
 
 base_path = "/media/jzielins/SD/sem6/IUM/IUM/data"
 
+
 def load_json_data(data_name : str) -> Dict :
     with open(base_path + "/raw/" +  data_name + "s.jsonl", "r") as file:
         lines = file.readlines()
@@ -49,8 +50,6 @@ def aggregate_data(data_sets : List[Dict[int, Dict]], sessions : Dict):
 
 
 def save_aggregated_data(data : Dict):
-    
-    
     with open(base_path + "/processed/sessions.jsonl", "w") as file:
         for key, value in data.items():
             if key != "meta_name":
@@ -66,4 +65,3 @@ if __name__ == "__main__":
     
     aggregate_data([products, users, purchases], sessions)
     save_aggregated_data(sessions)
-
