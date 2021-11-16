@@ -37,10 +37,8 @@ def load_sessions(data_name):
 
 def aggregate_data(data_sets : List[Dict[int, Dict]], sessions : Dict):
     for data_set in data_sets:
-        for key in sessions:
-            if key != "meta_name":
-                session : Dict = sessions[key]
-                
+        for key, session in sessions.items():
+            if key != "meta_name":                
                 id_key = data_set["meta_name"] + "_id"
                 data = data_set[session[id_key]].copy()            
                 del data[id_key]
