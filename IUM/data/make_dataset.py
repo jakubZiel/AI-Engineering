@@ -4,8 +4,8 @@ import json
 base_path = "/media/jzielins/SD/sem6/IUM/IUM/data"
 
 def load_json_data(data_name : str) -> Dict :
-    file = open(base_path + "/raw/" +  data_name + "s.jsonl", "r")
-    lines = file.readlines()
+    with open(base_path + "/raw/" +  data_name + "s.jsonl", "r") as file:
+        lines = file.readlines()
 
     objects = {}
     id = data_name + "_id"
@@ -50,11 +50,12 @@ def aggregate_data(data_sets : List[Dict[int, Dict]], sessions : Dict):
 
 def save_aggregated_data(data : Dict):
     
-    file = open(base_path + "/processed/sessions.jsonl", "w")
-    for key, value in data.items():
-        if key != "meta_name":
-            json.dump(value, file)
-            file.write("\n")
+    
+    with open(base_path + "/processed/sessions.jsonl", "w") as file:
+        for key, value in data.items():
+            if key != "meta_name":
+                json.dump(value, file)
+                file.write("\n")
 
 
 if __name__ == "__main__":
