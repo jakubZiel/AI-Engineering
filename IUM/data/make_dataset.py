@@ -81,6 +81,7 @@ def remove_unnecessary_fileds(sessions : Dict[int, Dict]):
         del record["name"]
 
 
+
 if __name__ == "__main__":
     users = load_json_data("user")
     products = load_json_data("product")
