@@ -67,8 +67,8 @@ def timestaps_to_delivery_duration(sessions : Dict[int, Dict]):
         delivery_duration = (end - beg)
         delivery_duration = delivery_duration.days * 24 + delivery_duration.seconds / 3600
         delivery_duration = round(delivery_duration, 2)
+        
         del record["delivery_timestamp"]
-        del record["purchase_timestamp"]
 
         record["delivery_duration(hrs)"] = delivery_duration
 
