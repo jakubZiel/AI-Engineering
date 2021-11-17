@@ -1,4 +1,6 @@
 from typing import List, Dict
+import dateutil.parser
+
 import json
 
 base_path = "/media/jzielins/SD/sem6/IUM/IUM/data"
@@ -46,6 +48,8 @@ def aggregate_data(data_sets : List[Dict[int, Dict]], sessions : Dict):
                 del session[id_key]
                 session.update(data)
 
+    del sessions["meta_name"]
+
 
 def save_aggregated_data(data : Dict):
     with open(base_path + "/processed/sessions.jsonl", "w") as file:
@@ -55,6 +59,29 @@ def save_aggregated_data(data : Dict):
                 file.write("\n")
 
 
+def timestaps_to_delivery_duration(sessions : Dict[int, Dict]):
+    for key, record in sessions.items():
+        beg = dateutil.parser.isoparse(record["purchase_timestamp"])
+        end = dateutil.parser.isoparse(record["delivery_timestamp"])
+
+        delivery_duration = (end - beg)
+        delivery_duration = delivery_duration.days * 24 + delivery_duration.seconds / 3600
+        delivery_duration = round(delivery_duration, 2)
+        del record["delivery_timestamp"]
+        del record["purchase_timestamp"]
+
+        record["delivery_duration(hrs)"] = delivery_duration
+
+
+def remove_unnecessary_fileds(sessions : Dict[int, Dict]):
+    for key, record in sessions.items():
+        del record["event_type"]
+        del record["offered_discount"]
+        del record["timestamp"]
+        del record["session_id"]
+        del record["name"]
+
+
 if __name__ == "__main__":
     users = load_json_data("user")
     products = load_json_data("product")
@@ -62,4 +89,8 @@ if __name__ == "__main__":
     sessions = load_sessions("session")
     
     aggregate_data([products, users, purchases], sessions)
+    
+    timestaps_to_delivery_duration(sessions)
+    remove_unnecessary_fileds(sessions)
+
     save_aggregated_data(sessions)
