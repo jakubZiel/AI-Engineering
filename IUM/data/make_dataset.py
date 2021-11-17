@@ -16,7 +16,6 @@ def load_json_data(data_name : str) -> Dict :
     for line in lines:
         object_v = json.loads(line)
         objects[object_v[id]] = object_v
-    
 
     objects["meta_name"] = data_name
 
@@ -51,8 +50,8 @@ def aggregate_data(data_sets : List[Dict[int, Dict]], sessions : Dict):
     del sessions["meta_name"]
 
 
-def save_aggregated_data(data : Dict):
-    with open(base_path + "/processed/sessions.jsonl", "w") as file:
+def save_data(data : Dict, destination):
+    with open(destination, "w") as file:
         for key, value in data.items():
             if key != "meta_name":
                 json.dump(value, file)
@@ -89,8 +88,9 @@ if __name__ == "__main__":
     sessions = load_sessions("session")
     
     aggregate_data([products, users, purchases], sessions)
+    save_data(sessions, base_path + "/raw/aggregated.jsonl")    
     
     timestaps_to_delivery_duration(sessions)
     remove_unnecessary_fileds(sessions)
 
-    save_aggregated_data(sessions)
+    save_data(sessions, base_path + "/processed/sessions.jsonl")
