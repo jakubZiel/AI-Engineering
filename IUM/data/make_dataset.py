@@ -3,7 +3,7 @@ import dateutil.parser
 
 import json
 
-base_path = "/media/jzielins/SD/sem6/IUM/IUM/data"gi
+base_path = "/media/jzielins/SD/sem6/IUM/IUM/data"
 
 
 def load_json_data(data_name : str) -> Dict :
