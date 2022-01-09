@@ -35,8 +35,9 @@ if __name__ == "__main__" :
             raise HTTPException(status_code=404, detail="Model id={model_id} doesn't exist")
         if purchase is None:
             raise HTTPException(status_code=400, detail="Request can't be empty")   
+        
         return {
-            "prediction" : models[model_id].predict([purchase.toVector()])[0]
+            "prediction" : int(models[model_id].predict([purchase.toVector()])[0])
         }
 
     @app.get("/models")
