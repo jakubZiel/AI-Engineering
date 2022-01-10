@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  mongodb_container:
+    image: mongo:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+    ports:
+      - 27017:27017
+    volumes:
+      - /media/jzielins/SD/sem6/IUM/IUM/microservice/mongodb/database:/data/db
+    restart: unless-stopped

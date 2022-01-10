@@ -1,3 +1,8 @@
+# my ignored files
+
+/microservice/mongodb/database
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -11,6 +11,8 @@ models_dir = "models/"
 
 app = FastAPI()
 
+test_on = True
+
 if __name__ == "__main__" :
     model_files = os.listdir("models")
     models = {}
@@ -20,9 +22,12 @@ if __name__ == "__main__" :
         models[index] = load(models_dir + file)
         model_names[index] = file.split('.')[0] 
         
-    @app.get("/ab_test")
+    @app.post("/ab_test")
     async def ab_test() -> JSONResponse:
         
+        if not test_on:
+            raise HTTPException(status_code=400, detail="A/B test is not on.")
+
         return {
             "a_accuracy" : 0.45,
             "b_accuracy" : 0.55
@@ -32,7 +37,7 @@ if __name__ == "__main__" :
     async def predict(model_id : int, purchase : Purchase) -> JSONResponse:        
         
         if model_id not in models:
-            raise HTTPException(status_code=404, detail="Model id={model_id} doesn't exist")
+            raise HTTPException(status_code=404, detail="Model id " + str(model_id) + " doesn't exist")
         if purchase is None:
             raise HTTPException(status_code=400, detail="Request can't be empty")   
         
