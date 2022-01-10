@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-
+from typing import List
 
 class Purchase(BaseModel):
     city : int
@@ -22,3 +22,4 @@ class Purchase(BaseModel):
             self.week_day,
             self.purchase_week_day_plus_hour
         ]
+    
