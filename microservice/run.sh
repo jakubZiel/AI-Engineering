@@ -1,3 +1,4 @@
+#check if microservice/mongodb/database folder exists
 cd mongodb
 
 docker-compose up -d
