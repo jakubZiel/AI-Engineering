@@ -21,6 +21,7 @@ test_on = True
 
 
 if __name__ == "__main__" :
+    os.system('pwd')
     model_files = os.listdir(models_dir)
     models = {}
     model_names = {}

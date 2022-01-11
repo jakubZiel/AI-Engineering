@@ -12,7 +12,7 @@ coloredlogs.install()
 class TestArchive():
     db_server : MongoClient
     collections : Dict[str, collection.Collection] 
-
+    
     def __init__(self):
         self.db_server = MongoClient('localhost', 27017)
         collection_cursor = self.db_server['ab_test'].list_collections()
@@ -24,7 +24,12 @@ class TestArchive():
 
     def insert_result(self, purchase : Purchase, prediction : int, group : str) -> None: 
 
+        gen = self.db_server['ab_test'].get_collection('generator').find_one({"_id" : 0})
+        self.db_server['ab_test'].get_collection('generator').update_one({"_id" : 0}, {"$inc" : {"next_id" : 1}})
+
+
         document = {
+            '_id' : gen['next_id'],   
             'prediction' : int(prediction),
             'purchase' : purchase.__dict__
         }
@@ -44,4 +49,10 @@ if __name__ == "__main__" :
         db_server['ab_test'].create_collection('group_b')
     else :
         logging.warning('group b already exists in ab_test')
+
+    if 'generator' not in db_server['ab_test'].list_collection_names():
+        db_server['ab_test'].create_collection('generator')
+        db_server['ab_test'].get_collection('generator').insert_one({'_id' : 0, "next_id" : 0})
+    else :
+        logging.warning('id generator already exists in ab_test')
 
