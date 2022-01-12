@@ -14,7 +14,7 @@ Aplikację należy wystartować z katalogu przy pomocy skryptu run.sh
 `bash run.sh`
 
 Skrypt tworzy kalog database w katalogu mongodb, w którym  
-przechowywane dane dla testów A / B.
+przechowywane są dane do testów A/B.
 
 ## Obsługa API
 
