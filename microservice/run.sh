@@ -1,5 +1,7 @@
 cd mongodb
 
+mkdir database
+
 docker-compose up -d
 
 pwd
