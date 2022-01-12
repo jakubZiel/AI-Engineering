@@ -33,8 +33,16 @@ class TestArchive():
             'prediction' : int(prediction),
             'purchase' : purchase.__dict__
         }
-
         self.db_server['ab_test'].get_collection(group).insert_one(document)
+
+    def find_group(self, group : str) -> list:
+        return self.db_server['ab_test'].get_collection(group).find()
+
+    def reset_collections(self) -> None:
+        self.db_server['ab_test'].get_collection('generator').update_one({"_id" : 0}, {"$set" : {"next_id" : 0}})
+        self.db_server['ab_test'].get_collection('group_a').delete_many({})
+        self.db_server['ab_test'].get_collection('group_b').delete_many({})
+
 
 
 if __name__ == "__main__" :
